@@ -1,37 +1,36 @@
 'use strict';
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('schools', {
+    return queryInterface.createTable('Schools', {
       id: {
-        type: Sequelize.INTEGER.UNSIGNED,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING(70),
+        type: Sequelize.STRING,
         allowNull: false
       },
-      passing_grade: {
-        type: Sequelize.DECIMAL(4, 2),
+      passingGrade: {
+        type: Sequelize.DECIMAL,
         allowNull: false
       },
-      academic_terms: {
-        type: Sequelize.INTEGER(1),
+      academicTerms: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       state: {
-        type: Sequelize.STRING(2),
+        type: Sequelize.STRING,
         allowNull: false
       },
       municipality: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING,
         allowNull: false
-      },
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('schools');
+    return queryInterface.dropTable('Schools');
   }
 };

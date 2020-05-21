@@ -1,39 +1,18 @@
+'use strict';
 module.exports = (sequelize, DataTypes) => {
-    let School = sequelize.define(
-        "School",
-        {
-            name: {
-                type: DataTypes.STRING(70),
-                allowNull: false
-            },
-            passing_grade: {
-                type: DataTypes.DECIMAL(4, 2),
-                allowNull: false
-            },
-            academic_terms: {
-                type: DataTypes.INTEGER(1),
-                allowNull: false
-            },
-            state: {
-                type: DataTypes.STRING(2),
-                allowNull: false
-            },
-            municipality: {
-                type: DataTypes.STRING(50),
-                allowNull: false
-            },
-        },
-        {
-            tableName: "schools",
-            timestamps: false,
-        }
-    );
-
-    School.associate = (models) => {
-        School.hasMany(models.Class, {
-            as: "classes"
-        });
-    };
-
-    return School;
+  const School = sequelize.define('School',
+    {
+      name: { type: DataTypes.STRING, allowNull: false },
+      passingGrade: { type: DataTypes.DECIMAL, allowNull: false },
+      academicTerms: { type: DataTypes.INTEGER, allowNull: false },
+      state: { type: DataTypes.STRING, allowNull: false },
+      municipality: { type: DataTypes.STRING, allowNull: false }
+    },
+    {
+      timestamps: false,
+    });
+  School.associate = function (models) {
+    // associations can be defined here
+  };
+  return School;
 };
