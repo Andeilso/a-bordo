@@ -3,4 +3,4 @@ node_modules/
 .env
 tasks.todo
 aBordo.mwb.bak
-uploads
+# uploads

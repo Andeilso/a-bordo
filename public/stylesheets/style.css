@@ -14,8 +14,8 @@ body{
   overflow: hidden;
 }
 
-:focus { outline: none; }
-button:focus { outline: none; }
+/* :focus { outline: none; } */
+/* button:focus { outline: none; } */
 
 header {
   background-color: #30c1f9;

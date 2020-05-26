@@ -122,10 +122,10 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 1; i <= 50; i++) { %>
+          <% for (let i = 1; i <= student.length; i++) { %>
           <tr id=<%= "student" + i %>>
-            <td class="student-number" id=<%= "student-number" + i %>><%= i %></td>
-            <td class="student-name" id=<%= "student-name" + i %>>João de Oliveira da Silva Santos</td>
+            <td class="student-number" id=<%= "student-number" + i %>><%= student[i].id %></td>
+            <td class="student-name" id=<%= "student-name" + i %>><%= student[i].name %></td>
             <td class="attendance-check">
               <% for (let j = 1; j <= 3; j++) { %>
               <div class="attendance-check" id=<%= "student" + i + "-period" + j %>>

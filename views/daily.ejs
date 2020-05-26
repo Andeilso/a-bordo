@@ -154,10 +154,10 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 1; i <= 10; i++) { %>
+          <% for (let i = 1; i <= student.length; i++) { %>
           <tr>
-            <td class="student-number"><%= i %></td>
-            <td class="student-name">João de Oliveira da Silva Santos</td>
+            <td class="student-number"><%= student[i].id %></td>
+            <td class="student-name"><%= student[i].name %></td>
             <% for (let j = 1; j <= 10; j++) { %>
             <td>
               <div class="attendance">
@@ -192,10 +192,10 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 1; i <= 10; i++) { %>
+          <% for (let i = 1; i <= student.length; i++) { %>
           <tr>
-            <td class="student-number"><%= i %></td>
-            <td class="student-name">João de Oliveira da Silva Santos</td>
+            <td class="student-number"><%= student[i].id %></td>
+            <td class="student-name"><%= student[i].name %></td>
             <% for (let j = 1; j <= 5; j++) { %>
             <td>
               <div>6/10</div>
