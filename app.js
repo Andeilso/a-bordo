@@ -12,7 +12,7 @@ var IndexRouter = require('./routes/IndexRouter');
 var TeacherRouter = require('./routes/TeacherRouter');
 var GuardianRouter = require('./routes/GuardianRouter');
 
-const CookieMiddleware = require("./middlewares/CookieLogin");
+const CookieLogin = require("./middlewares/CookieLogin");
 
 var app = express();
 // app.use(cors());
@@ -31,11 +31,12 @@ app.use(methodOverride("_method"));
 app.use(session({ secret: "abordo" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// MIDDLEWARE
+app.use(CookieLogin);
+
 app.use('/', IndexRouter);
 app.use('/professor', TeacherRouter);
 app.use('/responsavel', GuardianRouter);
-
-app.use(CookieMiddleware);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

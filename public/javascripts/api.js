@@ -48,7 +48,13 @@ const populateMunicipalitiesSelect = () => {
                     option.textContent = name;
 
                     municipalitiesSelect.appendChild(option);
-                })
+                });
+
+                const option = document.createElement("option");
+                option.textContent = "Município";
+                option.selected = "selected";
+                option.disabled = "disabled";
+                municipalitiesSelect.prepend(option);
             })
             .catch(error => {
                 console.log(error);
@@ -81,7 +87,13 @@ const populateSchoolsSelect = () => {
                     option.textContent = school.nome;
 
                     schoolsSelect.appendChild(option);
-                })
+                });
+
+                const option = document.createElement("option");
+                option.textContent = "Nome da escola";
+                option.selected = "selected";
+                option.disabled = "disabled";
+                schoolsSelect.prepend(option);
             })
             .catch(error => {
                 console.log(error);

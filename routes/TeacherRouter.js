@@ -16,14 +16,14 @@ const router = express.Router();
 // CONTROLLER
 const TeacherController = require("../controllers/TeacherController");
 // MIDDLEWARES
-const ValidateNewUser = require("../middlewares/ValidateNewUser");
+const ValidateNewTeacher = require("../middlewares/ValidateNewTeacher");
 const VerifyLoggedInUser = require("../middlewares/VerifyLoggedInUser");
 const isTeacher = require("../middlewares/isTeacher");
 /*****************************************************************************/
 /***********************--------CRUD--------**********************************/
 /*****************************************************************************/
 router.get("/cadastrar", TeacherController.renderRegistrationForm);
-router.post("/cadastrar", upload.single("picture"), ValidateNewUser, TeacherController.registerTeacher);
+router.post("/cadastrar", upload.single("picture"), ValidateNewTeacher, TeacherController.registerTeacher);
 /*****************************************************************************/
 router.use(VerifyLoggedInUser);
 router.use(isTeacher);

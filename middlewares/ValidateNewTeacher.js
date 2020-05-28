@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Subject } = require("../models");
 
 module.exports = async (req, res, next) => {
 
@@ -19,8 +19,8 @@ module.exports = async (req, res, next) => {
         errors.push("Digite um email válido.");
     }
     // CHECK PHONE LENGTH
-    if (phone.length < 15) {
-        errors.push(`O número de telefone ${phone} está incompleto.`);
+    if (phone.length > 5 && phone.length < 15) {
+        errors.push(`O número de telefone está incompleto.`);
     }
     // VALIDATE PASSWORD
     if (password.length < 8) {
@@ -45,7 +45,9 @@ module.exports = async (req, res, next) => {
 
     // THROW EVENTUAL ERRORS
     if (errors.length > 0) {
-        return res.render("register-teacher", { errors });
+        const subjects = await Subject.findAll();
+        console.log(subjects);
+        return res.render("teacher/register", { errors, subjects });
     }
 
     next();

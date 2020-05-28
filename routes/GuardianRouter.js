@@ -16,14 +16,14 @@ const router = express.Router();
 // CONTROLLER
 const GuardianController = require("../controllers/GuardianController");
 // MIDDLEWARES
-const ValidateNewUser = require("../middlewares/ValidateNewUser");
+const ValidateNewGuardian = require("../middlewares/ValidateNewGuardian");
 const VerifyLoggedInUser = require("../middlewares/VerifyLoggedInUser");
 const isGuardian = require("../middlewares/isGuardian");
 /*****************************************************************************/
 /***********************--------CRUD--------**********************************/
 /*****************************************************************************/
 router.get("/cadastrar", GuardianController.renderRegistrationForm)
-router.post("/cadastrar", upload.single("picture"), ValidateNewUser, GuardianController.registerGuardian);
+router.post("/cadastrar", upload.single("picture"), ValidateNewGuardian, GuardianController.registerGuardian);
 /*****************************************************************************/
 router.use(VerifyLoggedInUser);
 router.use(isGuardian);

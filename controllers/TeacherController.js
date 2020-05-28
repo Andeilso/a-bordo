@@ -34,11 +34,7 @@ module.exports = {
             schools.push(school);
         }
 
-        console.log(subjects);
-        console.log(classes);
-        console.log(schools);
-
-        return res.render("teacher-home", { user, subjects, classes, schools });
+        return res.render("teacher", { user, subjects, classes, schools });
     },
 
     // GET professor/cadastrar
@@ -47,7 +43,9 @@ module.exports = {
             return res.redirect("/professor/home");
         } else {
             const subjects = await Subject.findAll();
-            res.render("register-teacher", { subjects });
+            console.log(subjects);
+
+            res.render("teacher/register", { subjects });
         }
     },
 
@@ -57,12 +55,14 @@ module.exports = {
         const { forename, surname, email, phone, password } = req.body;
         const picture = req.file ? req.file.filename : "default.jpg";
 
+        const validPhone = phone.length == 15 ? phone : null;
+
         const user = await User.create(
             {
                 forename: forename.toUpperCase(),
                 surname: surname.toUpperCase(),
-                email: email.toUpperCase(),
-                phone,
+                email: email.toLowerCase(),
+                phone: validPhone,
                 password: bcrypt.hashSync(password, saltRounds),
                 picture
             }
@@ -158,7 +158,7 @@ module.exports = {
                 // CREATE STUDENTS
                 let newStudent = await Student.create(
                     {
-                        name: student[1].trim()
+                        name: student[1].trim().toUpperCase()
                     }
                 );
 
@@ -209,7 +209,7 @@ module.exports = {
     // GET professor/fazer-chamada
     renderAttendanceSheet: async (req, res) => {
         const student = await Student.findAll()
-        return res.render("attendance", { student });
+        return res.render("teacher/take-attendance", { student });
     },
 
     // POST professor/fazer-chamada
@@ -219,7 +219,7 @@ module.exports = {
 
     // GET professor/lancar-notas
     renderGradeBook: (req, res) => {
-        return res.render("set-notes");
+        return res.render("teacher/grade");
     },
 
     // POST professor/lancar-notas
@@ -230,14 +230,14 @@ module.exports = {
     // GET professor/diario-de-classe
     renderRecordBook: async (req, res) => {
         const student = await Student.findAll()
-        return res.render('daily', { student });
+        return res.render('teacher/records', { student });
     },
 
     // GET professor/atualizar
     renderUpdateForm: async (req, res) => {
         // LOAD USER FROM DB
         // PASS OBJECT USER INTO RENDER METHOD
-        return res.render("update-teacher");
+        return res.render("teacher/update");
     },
 
     // PUT professor/atualizar

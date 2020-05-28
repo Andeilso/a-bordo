@@ -45,8 +45,8 @@ module.exports = {
         req.session.user = user;
         // REMEMBER USER
         const oneWeek = 7 * 24 * 3600 * 1000; // 1 week
-        if (rememberMe != "undefined") {
-            res.cookie("aBordo", user.email, { maxAge: oneWeek });
+        if (rememberMe != undefined) {
+            res.cookie("aBordo", email, { maxAge: oneWeek });
         }
         // MANAGE REDIRECTIONS
         const isTeacher = await Teacher.findOne({ where: { userId: user.id } });
@@ -73,6 +73,7 @@ module.exports = {
     // GET /logout
     logout: (req, res) => {
         req.session.user = null;
+        res.cookie("aBordo", undefined);
         return res.redirect("/login");
     }
 };

@@ -9,7 +9,7 @@ module.exports = {
     renderHome: async (req, res) => {
         // GET GUARDIAN DATA FROM DB,
         // AND THEN...
-        return res.render("guardian-home");
+        return res.render("guardian");
     },
 
     // GET responsavel/cadastrar
@@ -17,7 +17,7 @@ module.exports = {
         if (req.session.user) { // user is already logged in
             return res.redirect(`/responsavel/home`);
         } else {
-            res.render("register-guardian");
+            res.render("guardian/register");
         }
     },
 
@@ -68,6 +68,9 @@ module.exports = {
 
     // GET responsavel/atualizar
     renderUpdateForm: async (req, res) => {
+        // LOAD USER FROM DB
+        // PASS OBJECT USER INTO RENDER METHOD
+        return res.render("guardian/update");
     },
 
     // PUT responsavel/atualizar

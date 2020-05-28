@@ -1,4 +1,4 @@
-<%- include("partials/header.ejs", {title: "aBordo - Cadastro"}) %>
+<%- include("../partials/header.ejs", {title: "aBordo - Cadastro"}) %>
 </head>
 
 <body>
@@ -182,7 +182,7 @@
                 <option disabled>Ano letivo</option>
                 <option value="<%= year %>" selected><%= year %></option>
                 <option disabled>•-•-•-•-•</option>
-                <option value="newYear">Outro ano letivo</option>
+                <option id="newYear">Outro ano letivo</option>
               </select>
 
               <select name="class1-school1[]" required>
@@ -218,7 +218,7 @@
                 <option value="1221">1221</option>
                 <option value="1231">1231</option>
                 <option disabled>•-•-•-•-•</option>
-                <option value="newClass">Adicionar nova turma</option>
+                <option id="newClass">Adicionar nova turma</option>
               </select>
             </div>
 
@@ -231,13 +231,14 @@
                 %>
                 <option value="<%= subject.id %>"><%= subject.name %></option>
                 <%
+                  
                   }
                 %>
                 <option disabled>•-•-•-•-•</option>
                 <option value="newSubject">Adicionar nova disciplina</option>
               </select>
 
-              <select name="subjects-class1-school1[]">
+              <select name="subjects-class1-school1[]" required>
                 <option disabled selected>Escolher disciplina</option>
                 <%
                   for (subject of subjects) {
@@ -276,27 +277,13 @@
                 <div class="course-retake-list" id="course-retake-student1" hidden required>
                   <select name="student1-class1-school1[]" id="course-retake-list1-student1">
                     <option value="" disabled selected>Dependência em...</option>
-                    <option value="1">Artes</option>
-                    <option value="2">Biologia</option>
-                    <option value="3">Ciência</option>
-                    <option value="4">Educação Física</option>
-                    <option value="5">Filosofia</option>
-                    <option value="6">Física</option>
-                    <option value="7">Geografia</option>
-                    <option value="8">Geometria</option>
-                    <option value="9">História</option>
-                    <option value="10">Informática</option>
-                    <option value="11">Língua Espanhola</option>
-                    <option value="12">Língua Francesa</option>
-                    <option value="13">Língua Inglesa</option>
-                    <option value="14">Língua Portuguesa</option>
-                    <option value="15">Literatura</option>
-                    <option value="16">Matemática</option>
-                    <option value="17">Música</option>
-                    <option value="18">Química</option>
-                    <option value="19">Redação</option>
-                    <option value="20">Sociologia</option>
-                    <option value="21">Teatro</option>
+                    <%
+                      for (subject of subjects) {
+                    %>
+                    <option value="<%= subject.id %>"><%= subject.name %></option>
+                    <%
+                      }
+                    %>
                   </select>
 
                   <button type="button" class="btn-add">+</button>
@@ -319,27 +306,13 @@
                 <div class="course-retake-list" id="course-retake-student2" hidden required>
                   <select name="student2-class1-school1[]" id="course-retake-list1-student2">
                     <option value="" disabled selected>Dependência em...</option>
-                    <option value="1">Artes</option>
-                    <option value="2">Biologia</option>
-                    <option value="3">Ciência</option>
-                    <option value="4">Educação Física</option>
-                    <option value="5">Filosofia</option>
-                    <option value="6">Física</option>
-                    <option value="7">Geografia</option>
-                    <option value="8">Geometria</option>
-                    <option value="9">História</option>
-                    <option value="10">Informática</option>
-                    <option value="11">Língua Espanhola</option>
-                    <option value="12">Língua Francesa</option>
-                    <option value="13">Língua Inglesa</option>
-                    <option value="14">Língua Portuguesa</option>
-                    <option value="15">Literatura</option>
-                    <option value="16">Matemática</option>
-                    <option value="17">Música</option>
-                    <option value="18">Química</option>
-                    <option value="19">Redação</option>
-                    <option value="20">Sociologia</option>
-                    <option value="21">Teatro</option>
+                    <%
+                      for (subject of subjects) {
+                    %>
+                    <option value="<%= subject.id %>"><%= subject.name %></option>
+                    <%
+                      }
+                    %>
                   </select>
 
                   <button type="button" class="btn-add">+</button>
@@ -359,4 +332,4 @@
   </main>
 
   <script src="/javascripts/api.js"></script>
-  <%- include("partials/footer.ejs") %>
+  <%- include("../partials/footer.ejs") %>
