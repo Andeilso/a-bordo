@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
     if (invalidEmail) {
         errors.push(`O email ${email} já está cadastrado.`);
     }
-
     // CHECK EMAIL FORMAT
     regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regex.test(String(email).toLowerCase())) {
@@ -46,9 +45,8 @@ module.exports = async (req, res, next) => {
     // THROW EVENTUAL ERRORS
     if (errors.length > 0) {
         const subjects = await Subject.findAll();
-        console.log(subjects);
         return res.render("teacher/register", { errors, subjects });
+    } else {
+        return next(); // TeacherController.registerTeacher
     }
-
-    next();
 }

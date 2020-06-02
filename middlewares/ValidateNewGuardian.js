@@ -46,9 +46,8 @@ module.exports = async (req, res, next) => {
     // THROW EVENTUAL ERRORS
     if (errors.length > 0) {
         const subjects = await Subject.findAll();
-        console.log(subjects);
         return res.render("guardian/register", { errors, subjects });
+    } else {
+        return next(); // GuardianController.registerGuardian
     }
-
-    next();
 }

@@ -21,10 +21,22 @@ module.exports = {
     // GET /
     // GET /login
     renderLogin: (req, res) => {
-        if (!req.session.user) {
-            return res.render("index");
-        } else { // user is already logged in
-            redirectHome(req, res);
+        // USER HAS ALREADY SUCCESSFULLY LOGGED IN
+        if (req.session.user) {
+            return redirectHome(req, res);
+        } else {
+            // TREAT EVENTUAL ERRORS
+            const { error } = req.query;
+            let msg;
+
+            if (error == 1) { // from IndexController.login
+                msg = "Email ou senha inválidos."
+            }
+            else if (error == 2) { // from middleware VerifyLoggedInUser
+                msg = "Você não está logado. Por favor, digite seu email e sua senha e clique em ENTRAR. Caso não possua um cadastro, clique em CADASTRAR."
+            }
+            // RENDER LOGIN PAGE
+            return res.render("index", { error: msg });
         }
     },
 
@@ -36,10 +48,9 @@ module.exports = {
                 where: { email }
             }
         );
-        // VERIFY USER
+        // VERIFY USER'S EMAIL AND PASSWORD
         if (!user || !bcrypt.compareSync(password, user.password)) {
-            let error = "Email ou senha inválidos."
-            return res.render("index", { error });
+            res.redirect("/login?error=1");
         }
         // SET A SESSION
         req.session.user = user;

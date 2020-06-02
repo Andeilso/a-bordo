@@ -35,7 +35,9 @@ header {
   justify-content: space-between;
 }
 
-div#logo {
+a#logo {
+  text-decoration: none;
+  
   display: flex;
   align-items: center;
 }
@@ -383,7 +385,10 @@ section div.gray-box {
   margin-bottom: 3rem;
 }
 
-section#set-schools div.gray-box { height: 60vh; }
+section#set-schools div.gray-box,
+section#set-child div.gray-box { 
+  height: 60vh; 
+}
 
 /* SETTING USER */
 section#set-user > div {
@@ -503,35 +508,42 @@ section#set-user ul li span {
 }
 /* END OF SETTING USER */
 
-/* BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
-main#register-teacher section > div:first-child button {
+/* BUTTONS FOR ADDING NEW SCHOOLS, CLASSES AND CHILDREN */
+#new-schools, #classes, #new-child { /* .align-left + btn-del */
+  display: flex;
+  justify-content: space-between;
+
+  z-index: 1000;
+}
+.align-left { /* .schools-tabs/#classes-tabs + .btn-add + .child-tabs */
+  display: flex;
+}
+.schools-tabs, #classes-tabs, .child-tabs, .instances-list {
+  width: 56vw;
+  margin-right: .5rem;
+
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.schools-tabs button, #classes-tabs button, .child-tabs button {
+  margin-right: .5rem;
+  width: 100%;
+}
+
+#new-schools button, #new-classes button, #new-child button {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+#classes button { margin-top: 0.25rem; } 
 
-section div.instances-list { display: inline-block; }
-
-div#new-classes button { margin-top: 0.5rem; }
-
-button.btn-add { width: 48px; }
-
-button.btn-del {
-  background-color: #fe539b;
-  width: 48px;
-}
-
-button#del-school,
-button#del-class {
-  background-color: #fe539b;
-  width: 168px;
-  float: right;
-}
-
-button#del-school:disabled,
-button#del-class:disabled,
-button#del-school[disabled],
-button#del-class[disabled] {
-  background-color: #c4c4c4;
+.btn-add, .btn-del { min-width: 48px; max-width: 48px; }
+.btn-del {
+  background-color: #fe539b; 
+  background-image: url("../images/bin.svg");
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 /* END OF BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
 
@@ -562,12 +574,18 @@ div.school-location { display: flex; }
   opacity: 0;
   cursor: pointer;
 }
+
+#set-schools input[type="radio"]:disabled {
+  cursor: default;
+}
 /* END OF SETTING RADIO INPUT APPEARANCE */
 /* END OF SCHOOLS SETTING*/
 
 /* CLASSES SETTING */
 div#class-code {
-  text-align: center;
+  /* text-align: center; */
+  display: flex;
+  flex-wrap: nowrap;
   margin-bottom: 1.5rem;
 }
 
@@ -720,8 +738,9 @@ button,
   border: none;
   border-radius: 5px;
 
-  width: 264px;
+  /* width: 264px; */
   min-height: 48px;
+  max-height: 48px;
 
   color: #ffffff;
   font-size: 1.25rem;
@@ -744,13 +763,20 @@ button:active,
   box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.disabled,
 button:disabled,
-button[disabled],
+button[disabled]/*,
 .btn-appearance:disabled,
-.btn-appearance[disabled] {
+.btn-appearance[disabled]*/ {
   background-color: #c4c4c4;
   box-shadow: none;
   color: #eaeaea;
+}
+
+.disabled:hover {
+  background-color: #c4c4c4;
+  color: #eaeaea;
+  cursor: grab;
 }
 
 .selected {
@@ -1028,3 +1054,8 @@ div#instructions p {
 }
 
 /* FIM DO SCROLLBAR PERSONALIZADO ---------*/
+
+/* CHILD SETTING */
+#set-child select { width: 100%; }
+#set-child p { margin-top: 12px; }
+#set-child span#term { font-weight: 700; }

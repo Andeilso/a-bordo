@@ -28,7 +28,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(methodOverride("_method"));
-app.use(session({ secret: "abordo" }));
+app.use(session({
+  secret: "abordo",
+  resave: true,
+  saveUninitialized: false
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MIDDLEWARE

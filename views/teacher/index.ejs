@@ -2,29 +2,7 @@
 </head>
 
 <body>
-    <header>
-        <div id="logo">
-            <img class="logo" src="../images/airplane.svg" alt="">
-            <h1 class="logo">aBordo</h1>
-        </div>
-        <div id="top-right-menu">
-            <div id="notifications">
-                <img src="../images/sino.png" alt=" ">
-            </div>
-
-            <div id="user-options">
-                <img src="../<%= user.picture %>" alt="avatar">
-                <span>
-                    <p><%= user.forename + " " + user.surname %></p>
-                    <p>DOCENTE</p>
-                </span>
-
-                <div>
-                    <a href="/logout">Sair</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <%- include("../partials/teacher-topMenu.ejs") %>
 
     <nav>
         <div class="navbar select">
@@ -69,6 +47,7 @@
                     }) 
                 %>
             </select>
+
         </div>
 
         <div class="navbar">
@@ -92,8 +71,40 @@
         </div>
     </nav>
 
-    <main id="">
+    <main id="home" style="margin-left: 450px;margin-top: 56px;">
+        <div>
 
+            <h3>Lista de dados</h3>
+            <br>
+            <ul style="margin-bottom: 48px;"> <% for (school of schools) { %>
+
+                <li style="margin-bottom: 18px;"><button type="button"><%= school.name %></button></li>
+
+                <% } %>
+            </ul>
+
+            <ul style="margin-bottom: 48px;"> <% for (subject of subjects) { %>
+
+                <li style="margin-bottom: 18px;"><button type="button"><%= subject.name %></button></li>
+
+                <% } %>
+            </ul>
+
+            <ul style="margin-bottom: 48px;"> <% for (c of classes) { %>
+
+                <li style="margin-bottom: 18px;"><button type="button"><%= c.code %></button></li>
+
+                <% } %>
+            </ul>
+
+            <ul style="margin-bottom: 48px;"> <% for (student of students) { %>
+
+                <li style="margin-bottom: 18px;"><button type="button"><%= student.name %></button></li>
+
+                <% } %>
+            </ul>
+
+        </div>
     </main>
 
     <%- include("../partials/footer.ejs") %>

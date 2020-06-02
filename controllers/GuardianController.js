@@ -25,7 +25,7 @@ module.exports = {
     registerGuardian: async (req, res, next) => {
 
         // CREATE USER 
-        const { forename, surname, email, phone, password } = req.bory;
+        const { forename, surname, email, phone, password } = req.body;
         let picture = req.file ? req.file.name : null;
 
         const user = User.create({
@@ -69,22 +69,30 @@ module.exports = {
     // GET responsavel/atualizar
     renderUpdateForm: async (req, res) => {
         // LOAD USER FROM DB
+        const user = req.session.user;
         // PASS OBJECT USER INTO RENDER METHOD
-        return res.render("guardian/update");
+        return res.render("guardian/update", { user });
     },
 
     // PUT responsavel/atualizar
     updateGuardian: async (req, res, next) => {
         // GET REQ.BODY CONTENT
+        const { forename, surname, email, phone, password } = req.body;
+        let picture = req.file ? req.file.name : null;
+
         // AND UPDATE DATA IN DB
-        // const result = await User.update({
-        //     // DATA TO UPDATE
-        // },
-        // {
-        //     where: {
-        //         id
-        //     }
-        // });
+        const user = await User.update({
+            forename,
+            surname,
+            email,
+            phone,
+            password: bcrypt.hashSync(password, saltRounds),
+            picture
+        }, {
+            where: { email }
+        });
+
+        return res.redirect("/responsavel/home");
     },
 
     // DELETE responsavel/deletar

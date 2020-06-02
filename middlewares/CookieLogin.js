@@ -7,5 +7,5 @@ module.exports = async (req, res, next) => {
             req.session.user = user;
         }
     }
-    next();
+    return next();
 }
