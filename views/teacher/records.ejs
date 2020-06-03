@@ -1,4 +1,4 @@
-<%- include("partials/header.ejs", {title: "aBordo - Diário de classe"}) %>
+<%- include("../partials/header.ejs", {title: "aBordo - Diário de classe"}) %>
 <!-- DAILY STYLE -->
 <link rel="stylesheet" href="/stylesheets/styleDaily.css">
 <!-- ANYCHART STYLE -->
@@ -9,81 +9,63 @@
 </head>
 
 <body>
-  <header>
-    <div id="logo">
-      <img class="logo" src="../images/airplane.svg" alt="">
-      <h1 class="logo">aBordo</h1>
-    </div>
-    <div id="top-right-menu">
-      <div id="notifications">
-        <img src="../images/sino.png" alt=" ">
-      </div>
-
-      <div id="user-options">
-        <img src="../images/professor.png" alt="">
-        <span>
-          <p>Nome do professor</p>
-          <p>PROFESSOR</p>
-        </span>
-      </div>
-    </div>
-  </header>
+  <%- include("../partials/teacher-topMenu.ejs") %>
 
   <nav>
     <div class="navbar select">
-      <select name="school" id="school" required>
-        <option value="" disabled selected>Escola</option>
-        <option value="0">Colégio Pedro II</option>
-        <option value="1">Escola Técnica Estadual do Ensino Fundamental Visconde de Mauá
+
+      <select name="school" required>
+        <option disabled selected>Escola</option>
+        <% schools.forEach(school => { %>
+        <option value="<%= school.id %>"><%= school.name %></option>
+        <% }) %>
       </select>
 
-      <select name="class" id="class" required>
-        <option value="" disabled selected>Turma</option>
-        <option value="2223">Turma 2223</option>
-        <option value="1121">Turma 1121</option>
+      <select name=" subject" required>
+        <option disabled selected>Disciplina</option>
+        <% subjects.forEach(subject => { %>
+        <option value="<%= subject.id %>"><%= subject.name %></option>
+        <% }) %>
       </select>
 
-      <select id="course" name="course" required>
-        <option value="" disabled selected>Disciplina</option>
-        <option value="arts">Artes</option>
-        <option value="biology">Biologia</option>
-        <option value="sciences">Ciências</option>
-        <option value="phys-ed">Educação Física</option>
-        <option value="philosophy">Filosofia</option>
-        <option value="physics">Física</option>
-        <option value="geography">Geografia</option>
-        <option value="geomethy">Geometria</option>
-        <option value="history">História</option>
-        <option value="literature">Literatura</option>
-        <option value="math">Matemática</option>
-        <option value="music">Música</option>
-        <option value="spanish-lang">Língua Espanhola</option>
-        <option value="french-lang">Língua Francesa</option>
-        <option value="english-lang">Língua Inglesa</option>
-        <option value="portuguese-lang">Língua Portuguesa</option>
-        <option value="chemistry">Química</option>
-        <option value="writing">Redação</option>
-        <option value="sociology">Sociologia</option>
-        <option value="drama">Teatro</option>
+      <select name="class" required>
+        <option disabled selected>Turma</option>
+        <% classes.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.code %></option>
+        <% }) %>
       </select>
 
-      <select name="term" id="term" disabled>
-        <option value="" disabled selected>Trimestre</option>
-        <option value="1">1º Trimestre</option>
-        <option value="2">2º Trimestre</option>
-        <option value="3">3º Trimestre</option>
+      <select name="term" required>
+        <% 
+              schools.forEach(school => { 
+                  let terms = school.academicTerms;
+                  let termType;
+
+                  if (terms == 4) { termType = "Bimestre" }
+                  else if (terms == 3) { termType = "Trimestre" }
+          %>
+        <option disabled selected><%= termType %></option>
+        <% 
+                  for (let term = 1; term <= terms; term++) { 
+          %>
+        <option value="<%= term %>"><%= term + "º " + termType %></option>
+        <% 
+                  }
+              }) 
+          %>
       </select>
+
     </div>
 
     <div class="navbar">
       <ul class="nav">
-        <li><a class="nav-link" href="/fazer-chamada">
+        <li><a class="nav-link" href="/professor/fazer-chamada">
             Fazer chamada
           </a></li>
-        <li><a class="nav-link" href="/lancar-notas">
+        <li><a class="nav-link" href="/professor/lancar-notas">
             Lançar notas
           </a></li>
-        <li><a class="nav-link active" href="#">
+        <li><a class="nav-link active" href="/professor/diario-de-classe">
             Diário de classe
           </a></li>
         <li><a class="nav-link" href="#">
@@ -154,10 +136,10 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 1; i <= 10; i++) { %>
+          <% for (let i = 0; i < students.length; i++) { %>
           <tr>
-            <td class="student-number"><%= i %></td>
-            <td class="student-name">João de Oliveira da Silva Santos</td>
+            <td class="student-number"><%= students[i].number %></td>
+            <td class="student-name"><%= students[i].name %></td>
             <% for (let j = 1; j <= 10; j++) { %>
             <td>
               <div class="attendance">
@@ -192,10 +174,10 @@
           </tr>
         </thead>
         <tbody>
-          <% for (let i = 1; i <= 10; i++) { %>
+          <% for (let i = 0; i < students.length; i++) { %>
           <tr>
-            <td class="student-number"><%= i %></td>
-            <td class="student-name">João de Oliveira da Silva Santos</td>
+            <td class="student-number"><%= students[i].number %></td>
+            <td class="student-name"><%= students[i].name %></td>
             <% for (let j = 1; j <= 5; j++) { %>
             <td>
               <div>6/10</div>
@@ -212,4 +194,4 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <!-- DAILY JS -->
   <script src="/javascripts/daily.js"></script>
-  <%- include("partials/footer.ejs") %>
+  <%- include("../partials/footer.ejs") %>

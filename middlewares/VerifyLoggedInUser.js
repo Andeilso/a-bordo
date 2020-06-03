@@ -1,10 +1,8 @@
-const VerifyLoggedInUser = (req, res, next) => {
+module.exports = (req, res, next) => {
     // IF USER SESSION IS NOT SET, REDIRECT TO LOGIN
     if (!req.session.user) {
-        res.redirect("/login?error=2");
+        return res.redirect("/login?error=2");
     }
     // IF SESSION IS OK (USER IS ALREADY LOGGED IN), GO AHEAD
-    next();
+    return next();
 };
-
-module.exports = VerifyLoggedInUser;

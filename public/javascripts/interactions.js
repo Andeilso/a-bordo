@@ -56,29 +56,29 @@ phoneField.keyup(() => {
 });
 
 // CHOOSE ACADEMIC YEAR DIVISION
-const term = document.getElementById("term");
-const bimonthly = document.getElementById("bimonthly");
-const trimonthly = document.getElementById("trimonthly");
+// const term = document.getElementById("term");
+// const bimonthly = document.getElementById("bimonthly");
+// const trimonthly = document.getElementById("trimonthly");
 
-function isBimonthly() {
-  term.innerHTML = "Bimestral";
-  bimonthly.classList.add("selected");
-  trimonthly.classList.remove("selected");
-}
+// function isBimonthly() {
+//   term.innerHTML = "Bimestral";
+//   bimonthly.classList.add("selected");
+//   trimonthly.classList.remove("selected");
+// }
 
-function isTrimonthly() {
-  term.innerHTML = "Trimestral";
-  trimonthly.classList.add("selected");
-  bimonthly.classList.remove("selected");
-}
+// function isTrimonthly() {
+//   term.innerHTML = "Trimestral";
+//   trimonthly.classList.add("selected");
+//   bimonthly.classList.remove("selected");
+// }
 
-function showCourseRetakeList() {
-  var checkbox = $(this);
-  var divId = checkbox.data("div-id");
-  let courseRetake = document.getElementById(divId);
-  checkbox.is(":checked") ? courseRetake.hidden = false : courseRetake.hidden = true;
-}
-$(".course-retake-checkbox").change(showCourseRetakeList).each(showCourseRetakeList);
+// function showCourseRetakeList() {
+//   var checkbox = $(this);
+//   var divId = checkbox.data("div-id");
+//   let courseRetake = document.getElementById(divId);
+//   checkbox.is(":checked") ? courseRetake.hidden = false : courseRetake.hidden = true;
+// }
+// $(".course-retake-checkbox").change(showCourseRetakeList).each(showCourseRetakeList);
 
 function checkAttendance() {
   let labelParent = $(this).parent();

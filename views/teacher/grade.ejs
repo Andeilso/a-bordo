@@ -1,82 +1,65 @@
-<%- include("partials/header.ejs", { title: "aBordo - Lançar notas" }) %>
+<%- include("../partials/header.ejs", { title: "aBordo - Lançar notas" }) %>
 <link rel='stylesheet' href='/stylesheets/set-notes.css' />
 </head>
 
 <body>
-  <header>
-    <div id="logo">
-      <img class="logo" src="../images/airplane.svg" alt="">
-      <h1 class="logo">aBordo</h1>
-    </div>
-    <div id="top-right-menu">
-      <div id="notifications">
-        <img src="../images/sino.png" alt=" ">
-      </div>
-      <div id="user-options">
-        <img src="../images/professor.png" alt="">
-        <span>
-          <p>Nome do professor</p>
-          <p>PROFESSOR</p>
-        </span>
-      </div>
-    </div>
-  </header>
+  <%- include("../partials/teacher-topMenu.ejs") %>
 
   <nav>
     <div class="navbar select">
-      <select name="school" id="school" required>
-        <option value="" disabled selected>Escola</option>
-        <option value="0">Colégio Pedro II</option>
-        <option value="1">Escola Técnica Estadual do Ensino Fundamental Visconde de Mauá
+
+      <select name="school" required>
+        <option disabled selected>Escola</option>
+        <% schools.forEach(school => { %>
+        <option value="<%= school.id %>"><%= school.name %></option>
+        <% }) %>
       </select>
 
-      <select name="class" id="class" required>
-        <option value="" disabled selected>Turma</option>
-        <option value="2223">Turma 2223</option>
-        <option value="1121">Turma 1121</option>
+      <select name=" subject" required>
+        <option disabled selected>Disciplina</option>
+        <% subjects.forEach(subject => { %>
+        <option value="<%= subject.id %>"><%= subject.name %></option>
+        <% }) %>
       </select>
 
-      <select id="course" name="course" required>
-        <option value="" disabled selected>Disciplina</option>
-        <option value="arts">Artes</option>
-        <option value="biology">Biologia</option>
-        <option value="sciences">Ciências</option>
-        <option value="phys-ed">Educação Física</option>
-        <option value="philosophy">Filosofia</option>
-        <option value="physics">Física</option>
-        <option value="geography">Geografia</option>
-        <option value="geomethy">Geometria</option>
-        <option value="history">História</option>
-        <option value="literature">Literatura</option>
-        <option value="math">Matemática</option>
-        <option value="music">Música</option>
-        <option value="spanish-lang">Língua Espanhola</option>
-        <option value="french-lang">Língua Francesa</option>
-        <option value="english-lang">Língua Inglesa</option>
-        <option value="portuguese-lang">Língua Portuguesa</option>
-        <option value="chemistry">Química</option>
-        <option value="writing">Redação</option>
-        <option value="sociology">Sociologia</option>
-        <option value="drama">Teatro</option>
+      <select name="class" required>
+        <option disabled selected>Turma</option>
+        <% classes.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.code %></option>
+        <% }) %>
       </select>
 
-      <select name="term" id="term" required>
-        <option value="" disabled selected>Trimestre</option>
-        <option value="1">1º Trimestre</option>
-        <option value="2">2º Trimestre</option>
-        <option value="3">3º Trimestre</option>
+      <select name="term" required>
+        <% 
+              schools.forEach(school => { 
+                  let terms = school.academicTerms;
+                  let termType;
+
+                  if (terms == 4) { termType = "Bimestre" }
+                  else if (terms == 3) { termType = "Trimestre" }
+          %>
+        <option disabled selected><%= termType %></option>
+        <% 
+                  for (let term = 1; term <= terms; term++) { 
+          %>
+        <option value="<%= term %>"><%= term + "º " + termType %></option>
+        <% 
+                  }
+              }) 
+          %>
       </select>
+
     </div>
 
     <div class="navbar">
       <ul class="nav">
-        <li><a class="nav-link" href="/fazer-chamada">
+        <li><a class="nav-link" href="/professor/fazer-chamada">
             Fazer chamada
           </a></li>
-        <li><a class="nav-link active" href="#">
+        <li><a class="nav-link active" href="/professor/lancar-notas">
             Lançar notas
           </a></li>
-        <li><a class="nav-link" href="/diario-de-classe">
+        <li><a class="nav-link" href="/professor/diario-de-classe">
             Diário de classe
           </a></li>
         <li><a class="nav-link" href="#">
@@ -89,13 +72,7 @@
     </div>
   </nav>
 
-  <% 
-    var students = [
-      {id: 0, name: "Andeilso Alves", number: 1}, 
-      {id: 1, name: "Patrícia Felix", number: 2}, 
-      {id: 2, name: "Paula de Pinho Monteiro", number: 3}, 
-      {id: 3, name: "João de Oliveira da Silva Santos", number: 7}
-    ];
+  <%
     var evaluations = [
       { number: 1, date: null, maxGrade: 10, grade: 5, title: "AVAL. 1", color: "#54A2EB", student_id: null },
       { number: 2, date: null, maxGrade: 10, grade: 2, title: "AVAL. 2", color: "#ff92aa", student_id: null },      
@@ -213,4 +190,4 @@
     </section>
   </main>
 
-  <%- include("partials/footer.ejs") %>
+  <%- include("../partials/footer.ejs") %>

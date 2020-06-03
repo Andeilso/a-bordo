@@ -1,0 +1,278 @@
+<%- include("../partials/header.ejs", {title: "aBordo - Cadastro"}) %>
+</head>
+
+<body>
+  <header>
+    <a href="/login" id="logo">
+      <img class="logo" src="../images/airplane.svg" alt="">
+      <h1 class="logo">aBordo</h1>
+    </a>
+  </header>
+
+  <nav>
+    <h2>Cadastrar</h2>
+    <div class="navbar">
+      <ul class="nav">
+        <li>
+          <a class="nav-link" href="#set-user">
+            Dados pessoais
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="#set-schools">
+            Escolas
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="#set-classes">
+            Turmas
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="register-teacher">
+
+    <form id="create" action="/professor/cadastrar" method="POST" enctype="multipart/form-data" autocomplete="on">
+
+      <div data-spy="scroll" data-target=".navbar" data-offset="450">
+
+        <section id="set-user">
+          <div class="add-pic">
+            <label for="pic-file" class="add-pic">
+              <img src="../images/silhouette.jpg" id="user-pic" width="176px" height="176px" />
+              <div id="text-on-hover"><span>Nova imagem</span></div>
+            </label>
+            <input type="file" name="picture" id="pic-file" onchange="addPic()" />
+          </div>
+
+          <div id="full-name">
+            <input type="text" name="forename" id="name" placeholder="Nome" required />
+
+            <input type="text" name="surname" id="surname" placeholder="Sobrenome" required />
+          </div>
+          <div id=" contact-info">
+            <input type="email" name="email" id="email" placeholder="E-mail" />
+
+            <input type="text" name="phone" id="phone" placeholder="Celular" />
+          </div>
+          <div id=" add-password">
+            <div class="password">
+              <input type="password" name="password" id="password" placeholder="Senha" required />
+              <div class="eye-icon" id="eye-icon-1" onclick="toogleVisibility()"></div>
+            </div>
+
+            <div class="password">
+              <input type="password" id="confirm-password" placeholder="Confirme a senha" required />
+              <div class="eye-icon" id="eye-icon-2" onclick="toogleVisibility()"></div>
+            </div>
+          </div>
+
+          <% 
+            if(typeof errors != "undefined") { 
+              errors.forEach(error => { 
+          %>
+          <span><%= error %></span>
+          <% 
+              }); 
+            } 
+          %>
+
+          <ul id="password-strength">
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li class="dash"></li>
+            <li>Força da senha</li>
+          </ul>
+          <ul>
+            <li><span>x</span> Minúscula</li>
+            <li><span>x</span> Maiúscula</li>
+            <li><span>x</span> Número</li>
+            <li><span>x</span> Símbolo</li>
+            <li><span>x</span> 8 caracteres</li>
+          </ul>
+        </section>
+
+        <section id="set-schools">
+          <div id="new-schools">
+            <div class="schools-tabs"></div>
+            <div class="buttons">
+              <button type="button" class="btn-add" id="add-school"></button>
+              <button type="button" class="btn-del" id="del-school" disabled></button>
+            </div>
+          </div>
+          <div class="gray-box"></div>
+        </section>
+
+        <section id="set-classes">
+          <div id="new-classes">
+            <div class="schools-tabs"></div>
+            <div id="classes">
+              <div id="classes-tabs"></div>
+              <div class="buttons">
+                <button type="button" class="btn-add" id="add-class"></button>
+                <button type="button" class="btn-del" id="del-class" disabled></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="gray-box">
+            <h3 id="class-school"></h3>
+
+            <div class="class-content school1">
+
+              <div id="class-code">
+                <% 
+                let date = new Date;
+                let year = date.getFullYear(); 
+              %>
+                <select name="class1-school1[]">
+                  <option disabled>Ano letivo</option>
+                  <option value="<%= year %>" selected><%= year %></option>
+                  <option disabled>•-•-•-•-•</option>
+                  <option id="newYear">Outro ano letivo</option>
+                </select>
+
+                <select name="class1-school1[]" required>
+                  <option disabled selected>Série/Ano</option>
+                  <option disabled>Ensino Fundamental</option>
+                  <option value="Ensino Fundamental-1º ano">1º ano</option>
+                  <option value="Ensino Fundamental-2º ano">2º ano</option>
+                  <option value="Ensino Fundamental-3º ano">3º ano</option>
+                  <option value="Ensino Fundamental-4º ano">4º ano</option>
+                  <option value="Ensino Fundamental-5º ano">5º ano</option>
+                  <option value="Ensino Fundamental-6º ano">6º ano</option>
+                  <option value="Ensino Fundamental-7º ano">7º ano</option>
+                  <option value="Ensino Fundamental-8º ano">8º ano</option>
+                  <option value="Ensino Fundamental-9º ano">9º ano</option>
+                  <option disabled>Ensino Médio</option>
+                  <option value="Ensino Médio-1ª série">1ª série</option>
+                  <option value="Ensino Médio-2ª série">2ª série</option>
+                  <option value="Ensino Médio-3ª série">3ª série</option>
+                </select>
+
+                <select name="class1-school1[]">
+                  <option disabled selected>Número da turma</option>
+                  <option value="1111">1111</option>
+                  <option disabled>•-•-•-•-•</option>
+                  <option id="newClass">Adicionar nova turma</option>
+                </select>
+              </div>
+
+              <p>Nesta turma, eu leciono...</p>
+
+              <div id="new-courses">
+                <div class="subjects">
+                  <select name="subjects-class1-school1[]" required>
+                    <option disabled selected>Escolher disciplina</option>
+                    <%
+                    for (subject of subjects) {
+                    %>
+                    <option value="<%= subject.id %>"><%= subject.name %></option>
+                    <%
+                    }
+                    %>
+                    <option disabled>•-•-•-•-•</option>
+                    <option value="newSubject">Adicionar nova disciplina</option>
+                  </select>
+                </div>
+                <div class="buttons">
+                  <button type="button" class="btn-add" id="add-course"></button>
+                  <button type="button" class="btn-del" id="del-course" disabled></button>
+                </div>
+
+              </div>
+
+              <table id="students-table">
+
+                <thead>
+                  <tr>
+                    <th id="student-number">Nº</th>
+                    <th id="student-name">Aluno</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="student">
+                    <td><input type="number" name="student1-class1-school1[]" value="1" min="1" required /></td>
+                    <td><input type="text" name="student1-class1-school1[]" placeholder="Nome do aluno" required /></td>
+                    <td>
+                      <label for="checkbox1" class="checkbox-container">Dependência
+
+                        <input type="checkbox" class="checkbox" id="checkbox1" name="student1-class1-school1[]"
+                          data-td-id="course-student1" />
+
+                        <span class="checkmark"></span>
+
+                      </label>
+                    </td>
+                    <td class="repeat-courses" id="course-student1" hidden>
+
+                      <div class="subjects">
+                        <select name="student1-class1-school1[]">
+                          <option disabled selected>Dependência em...</option>
+                        </select>
+                      </div>
+
+                      <div class="buttons">
+                        <button type="button" class="btn-add"></button>
+                        <button type="button" class="btn-del" disabled></button>
+                      </div>
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+            <!-- <div id="students-list">
+                <div>
+                  <span id="student-number">Nº</span><span id="student-name">Aluno</span>
+                </div>
+
+                <div class="students">
+                  <input type="number" name="student1-class1-school1[]" value="1" required />
+                  <input type="text" name="student1-class1-school1[]" placeholder="Nome do aluno" required />
+
+                  <label for="course-retake-checkbox-student1" class="checkbox-container">Dependência
+                    <input type="checkbox" name="student1-class1-school1[]" class="course-retake-checkbox"
+                      id="course-retake-checkbox-student1" data-div-id="course-retake-student1" />
+                    <span class="checkmark"></span>
+                  </label>
+
+                  <div class="course-retake-list" id="course-retake-student1" hidden required>
+                    <select name="student1-class1-school1[]" id="course-retake-list1-student1">
+                      <option disabled selected>Dependência em...</option>
+                      <%
+                        for (subject of subjects) {
+                      %>
+                      <option value="<%= subject.id %>"><%= subject.name %></option>
+                      <%
+                        }
+                      %>
+                    </select>
+                    <div class="buttons">
+                      <button type="button" class="btn-add"></button>
+                      <button type="button" class="btn-del" disabled></button>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+          </div>
+
+          <button type="submit" class="special">Finalizar e levantar voo!</button>
+        </section>
+      </div>
+    </form>
+  </main>
+
+  <script src="/javascripts/formItems.js"></script>
+  <%- include("../partials/footer.ejs") %>
