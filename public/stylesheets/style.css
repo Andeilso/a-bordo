@@ -385,7 +385,10 @@ section div.gray-box {
   margin-bottom: 3rem;
 }
 
-section#set-schools div.gray-box { height: 60vh; }
+section#set-schools div.gray-box,
+section#set-child div.gray-box { 
+  height: 60vh; 
+}
 
 /* SETTING USER */
 section#set-user > div {
@@ -526,7 +529,7 @@ section#set-user ul li span {
   flex-wrap: nowrap;
 }
 
-.schools-tabs button, #classes-tabs button {
+.schools-tabs button, #classes-tabs button, .child-tabs button {
   margin-right: .5rem;
   width: 100%;
 }
@@ -1070,3 +1073,8 @@ div#instructions p {
 }
 
 /* FIM DO SCROLLBAR PERSONALIZADO ---------*/
+
+/* CHILD SETTING */
+#set-child select { width: 100%; }
+#set-child p { margin-top: 12px; }
+#set-child span#term { font-weight: 700; }
