@@ -16,95 +16,149 @@
      -------------------------------
 */
 
-const enter = 13; // keyboard key;
+// VARIABLES/CONSTANTS
 
+let schoolCount = 0; // decreases on school deletion; sole purpose: (in)activate add/del btns
+let schoolNumber = 0; // never decreases
+let classNumber = 0;
+const maxClassesPerSchool = 10;
+// BUTTONS
+const enter = 13; // keyboard key;
 const addSchoolBtn = document.getElementById("add-school");
 const delSchoolBtn = document.getElementById("del-school");
-
-let schoolsTabs = document.querySelectorAll("#new-schools .schools-tabs button"); // schools section
-
-let schoolCount = 0; // decreases on school deletion
-let schoolNumber = 0; // never decreases
+const addClassBtn = document.getElementById("add-class");
+const delClassBtn = document.getElementById("del-class");
+// TABS BUTTONS
+let schoolsTabs = document.querySelectorAll("#new-schools .schools-tabs button"); // array of tabs in schools section
+let cSchoolsTabs = document.querySelectorAll("#new-classes .schools-tabs button"); // array of schools tabs in classes section
+let classesTabs = document.querySelectorAll("#new-classes #classes-tabs button");
+// CONTENTS
+const schoolsContents = document.getElementsByClassName("school-content"); // HTML collection of divs appended to gray box
+const classSchool = document.getElementById("class-school");
 
 // FUNCTIONS CALLS
 
-// ADD SCHOOL
+// ADD SCHOOL (it also adds one class)
 window.addEventListener("load", () => addSchool());
 addSchoolBtn.addEventListener("mouseup", () => addSchool());
 addSchoolBtn.addEventListener("keydown", evt => {
     if (evt.keyCode == enter) { addSchool(); }
 });
-// DELETE SCHOOL
+// ADD CLASSES
+addClassBtn.addEventListener("mouseup", () => addClass());
+addClassBtn.addEventListener("keydown", evt => {
+    if (evt.keyCode == enter) { addClass(); }
+});
+// DELETE SCHOOL (it also deletes all classes of deleted school)
 delSchoolBtn.addEventListener("mouseup", () => delSchool());
 delSchoolBtn.addEventListener("keydown", evt => {
     if (evt.keyCode == enter) { delSchool(); }
+});
+// DELETE CLASSES
+delClassBtn.addEventListener("mouseup", () => delClass());
+delClassBtn.addEventListener("keydown", evt => {
+    if (evt.keyCode == enter) { delClass(); }
 });
 
 
 // FUNCTIONS EXPRESSIONS
 
+/*************
+    SCHOOLS
+*************/
+
 const addSchool = () => {
 
     /**** UPDATE VARIABLES ****/
 
-    schoolNumber++;
     schoolCount++;
+    schoolNumber++;
+    classNumber++; // one class is added too
 
-    /*********************
-        NEW SCHOOL TAB
-    *********************/
+    /**** TOGGLE ADD AND DEL BUTTONS ****/
 
-    // REMOVE CLASS SELECTED FROM PREVIOUSLY SELECTED TAB (HTML SCHOOLS SECTION ONLY)
+    if (schoolCount == 5) { addSchoolBtn.disabled = true; }
+    if (schoolCount > 1) { delSchoolBtn.disabled = false; }
+
+    /***************
+        NEW TABS
+    ***************/
+
+    // UNSELECT PREVIOUSLY SELECTED TAB
     schoolsTabs.forEach(tab => tab.classList.remove("selected"));
 
     /**** CREATE ELEMENTS ****/
 
-    // HTML SCHOOLS SECTION TAB
+    // SCHOOL TAB
     const schoolTab = document.createElement("button");
     schoolTab.type = "button";
-    schoolTab.classList.add(`school${schoolNumber}`, "selected");
+    schoolTab.classList.add(`school${schoolNumber}`, "selected"); // select newly create school
     schoolTab.innerText = `Escola ${schoolNumber}`;
 
-    // HTML CLASSES SECTION TAB
+    // CLASSES SCHOOL TAB
     const cSchoolTab = document.createElement("button");
     cSchoolTab.type = "button";
     cSchoolTab.className = `school${schoolNumber}`;
     cSchoolTab.innerText = `Escola ${schoolNumber}`;
+    if (schoolsTabs.length == 0) { cSchoolTab.classList.add("selected"); } // select the first listed school in the classes section
 
-    if (schoolsTabs.length == 0) { cSchoolTab.classList.add("selected") }; // the first school tab of the classes section is selected when new school is added
+    // CLASS TAB
+    const classTab = document.createElement("button");
+    classTab.type = "button";
+    classTab.className = `school${schoolNumber}`;
+    classTab.id = `class${classNumber}`;
+    classTab.innerText = "Turma 1";
+
+    if (cSchoolTab.classList.contains("selected")) {
+
+        classSchool.innerText = `Escola ${schoolNumber}`; // school identifier above the class content
+
+        classTab.classList.add("selected"); // select the first class tab of the first listed school
+        classTab.hidden = false;
+    } else { classTab.hidden = true; } // hide class if it's not from first listed school
 
     /**** APPEND ELEMENTS ****/
 
     // APPEND EACH NEW TAB TO TABS LIST OF CORRESPONDING FORM SECTION
-    const tabsList = document.querySelectorAll(".schools-tabs");
+    let tabsList = document.querySelectorAll(".schools-tabs"); //////////////////////////////////////
     tabsList[0].appendChild(schoolTab); // schools section
     tabsList[1].appendChild(cSchoolTab); // classes section
 
+    tabsList = document.querySelectorAll("#classes-tabs");
+    tabsList[0].appendChild(classTab); // classes section
+
     /**** LISTEN TO EVENTS ON ELEMENTS ****/
 
-    // LISTEN TO CLICK ON TAB TO SELECT SCHOOL (SCHOOLS SECTION TAB)
+    // LISTEN TO CLICK ON THE SCHOOL TAB
     schoolTab.addEventListener("mouseup", () => selectSchool(schoolTab));
     schoolTab.addEventListener("keydown", evt => {
         if (evt.keyCode == enter) { selectSchool(schoolTab); }
     });
 
-    // LISTEN TO CLICK ON TAB TO SELECT THE SCHOOL CLASSES (CLASSES SECTION TAB)
-    cSchoolTab.addEventListener("mouseup", () => selectSchoolClasses(cSchoolTab));
+    // LISTEN TO CLICK ON SCHOOL TAB (CLASSES SECTION)
+    cSchoolTab.addEventListener("mouseup", () => selectClassesSchool(cSchoolTab));
     cSchoolTab.addEventListener("keydown", evt => {
-        if (evt.keyCode == enter) { selectSchoolClasses(cSchoolTab); }
+        if (evt.keyCode == enter) { selectClassesSchool(cSchoolTab); }
     });
+
+    // LISTEN TO CLICK ON CLASS TAB
+    classTab.addEventListener("mouseup", () => selectClass(classTab));
+    classTab.addEventListener("keydown", evt => {
+        if (evt.keyCode == enter) { selectClass(classTab); }
+    });
+
+    /**** UPDATE TABS LISTS ****/
+
+    schoolsTabs = document.querySelectorAll("#new-schools .schools-tabs button");
+    cSchoolsTabs = document.querySelectorAll("#new-classes .schools-tabs button");
+    classesTabs = document.querySelectorAll("#new-classes #classes-tabs button");
 
     /**************************
         NEW SCHOOL CONTENT
     **************************/
 
     // HIDE PREVIOUSLY SELECTED SCHOOL CONTENT
-    const previousSchoolsContents = document.getElementsByClassName("school-content"); // div inside the gray box
-    [...previousSchoolsContents].forEach(school => {
-        if (!school.hidden) {
-            school.hidden = true;
-        }
-    });
+    [...schoolsContents].forEach(content => content.hidden = true);
 
     /**** CREATE ELEMENTS ****/
 
@@ -256,98 +310,95 @@ const addSchool = () => {
     // LISTEN TO ACADEMIC YEAR DIVISIONS
     bimonthly.addEventListener("click", () => toggleYearDivision(evaluationSystem, bimonthly, trimonthly));
     trimonthly.addEventListener("click", () => toggleYearDivision(evaluationSystem, trimonthly, bimonthly));
-
-    /*************************
-        WRAP EVERYTHING UP
-    **************************/
-
-    /**** TOGGLE ADD AND DEL BUTTONS ****/
-
-    if (schoolCount > 1) {
-        delSchoolBtn.disabled = false;
-    }
-    if (schoolCount == 5) {
-        addSchoolBtn.disabled = true;
-    }
-
-    /**** UPDATE TABS LIST ****/
-
-    schoolsTabs = document.querySelectorAll("#new-schools .schools-tabs button");
 };
 
 const delSchool = () => {
     // IDENTIFY SCHOOL TO DELETE
     let school;
     schoolsTabs.forEach(tab => {
-        const classList = tab.classList;
-        [...classList].forEach(c => {
-            if (c == "selected") { school = tab; }
-        });
+        if (tab.classList.contains("selected")) { school = tab; }
     });
     // CONFIRM DELETION
     if (!confirm(`Tem certeza que deseja deletar a ${school.innerText}?`)) { return; }
 
     schoolCount--;
 
-    /************************
-        REMOVE SCHOOL TAB
-    ************************/
+    // TOGGLE ADD AND DEL BUTTONS
+    addSchoolBtn.disabled = false;
+    if (schoolCount == 1) { delSchoolBtn.disabled = true; }
 
-    // REMOVE TAB BUTTON FROM SCHOOLS TABS
-    school.remove(); // in the schools section
-    const tabsCSec = document.querySelectorAll("#new-classes .schools-tabs button");
-    tabsCSec.forEach(tab => { // in the classes section
-        if (tab.innerText == school.innerText) { tab.remove(); }
+    /******************
+        REMOVE TABS
+    ******************/
+
+    // UNSELECT SCHOOL
+    school.classList.remove("selected");
+
+    // REMOVE SCHOOL TABS
+    school.remove(); // schools section
+    cSchoolsTabs.forEach(tab => { // classes section
+        if (tab.classList.contains(school.className)) { tab.remove(); }
+        else { tab.classList.remove("selected"); } // only the first remaining one shall be selected
+    });
+    // REMOVE CLASSES TABS
+    classesTabs.forEach(tab => {
+        if (tab.classList.contains(school.className)) { tab.remove(); }
+        else { tab.classList.remove("selected"); }  // only the first remaining one shall be selected
     });
 
-    //  UPDATE TABS LIST
+    //  UPDATE TABS LISTS
     schoolsTabs = document.querySelectorAll("#new-schools .schools-tabs button");
+    cSchoolsTabs = document.querySelectorAll("#new-classes .schools-tabs button");
+    classesTabs = document.querySelectorAll("#new-classes #classes-tabs button");
 
-    // SELECT TO LAST TAB IN THE LIST
+    /**** SELECT ONE OF THE REMAINING SCHOOLS/CLASSES ****/
+
+    // SELECT LAST SCHOOL IN THE LIST
     schoolsTabs[schoolsTabs.length - 1].classList.add("selected");
+    // IN THE CLASSES SECTION, SELECT THE FIRST SCHOOL
+    cSchoolsTabs[0].classList.add("selected");
+    // SELECT THE FIRST CLASS OF THE FIRST SCHOOL
+    classesTabs[0].classList.add("selected");
 
-    // IN THE CLASSES SECTION, SELECT THE FIRST TAB
-    tabsCSec[0].classList.add("selected");
+    /**** TOGGLE CLASSES TABS VISIBILITIES ****/
 
-    /*****************************************************
+    // DISPLAY SELECTED SCHOOL'S CLASSES' TABS
+    classesTabs.forEach(tab => {
+        tab.classList.contains(cSchoolsTabs[0].classList[0]) ? tab.hidden = false : tab.hidden = true;
+    });
+
+    /****  DISPLAY SCHOOL IDENTIFIER (NAME OR NUMBER) BEFORE ITS CLASSES CONTENTS ****/
+
+    classSchool.innerText = cSchoolsTabs[0].innerText;
+
+    /******************************************************
         REMOVE SCHOOL CONTENT (FROM SCHOOL SECTION FORM)
-    *****************************************************/
+    ******************************************************/
 
-    const schoolsContents = document.getElementsByClassName("school-content");
-    [...schoolsContents].forEach(school => {
-        if (!school.hidden) { school.remove(); }
+    [...schoolsContents].forEach(content => {
+        if (!content.hidden) { content.remove(); }
     });
 
     // DISPLAY CONTENT OF THE LAST SCHOOL IN THE LIST
     schoolsContents[schoolsContents.length - 1].hidden = false;
-
-    /*********************************
-        TOGGLE ADD AND DEL BUTTONS
-    *********************************/
-
-    addSchoolBtn.disabled = false;
-    if (schoolCount == 1) { delSchoolBtn.disabled = true; }
 };
 
-const selectSchool = (tab) => {
+const selectSchool = (schoolTab) => {
     // UNSELECT PREVIOUSLY SELECTED TAB
     schoolsTabs.forEach(tab => tab.classList.remove("selected"));
 
     // TOGGLE SCHOOLS CONTENTS VISIBILITY
-    const schoolsContents = document.getElementsByClassName("school-content");
-
     [...schoolsContents].forEach(content => {
-        content.classList[1] == tab.className ? content.hidden = false : content.hidden = true;
+        content.classList.contains(schoolTab.className) ? content.hidden = false : content.hidden = true;
     });
 
-    // ADD SELECTED CLASS CLICKED TAB
-    tab.classList.add("selected");
+    // SELECT CLICKED SCHOOL
+    schoolTab.classList.add("selected");
 };
 
 const setNeighborSchoolLocationToSelf = (statesSelect, municipalitiesSelect, schoolsSelect, schoolContent) => {
     // LOOK FOR PREVIOUS NEIGHBOR
     let index, neighbor = null;
-    const schoolsContents = document.getElementsByClassName("school-content");
 
     for (let i = 0; i < schoolsContents.length; i++) {
         if (schoolsContents[i] == schoolContent) { index = i; } // found own index
@@ -403,6 +454,9 @@ const changeTabText = (tab, cSchoolTab, select) => {
 
     tab.innerText = selected.innerText;
     cSchoolTab.innerText = selected.innerText;
+    if (cSchoolTab.classList.contains("selected")) {
+        classSchool.innerText = selected.innerText;
+    }
 };
 
 const enableYearDivisionOptions = (label1, label2) => {
@@ -509,4 +563,197 @@ const populateSchoolsSelect = (schoolsSelect, municipalitiesSelect) => {
         .catch(error => {
             console.log(error);
         });
+};
+
+/*************
+    CLASSES
+*************/
+
+const selectClassesSchool = (schoolTab) => {
+    // UNSELECT SELECTED TABS
+    cSchoolsTabs.forEach(sTab => sTab.classList.remove("selected"));
+    classesTabs.forEach(cTab => cTab.classList.remove("selected"));
+
+    let schoolClasses = [];
+    classesTabs.forEach(cTab => {
+        if (cTab.className == schoolTab.className) {
+            classSchool.innerText = schoolTab.innerText; // school name/number before its classes contents
+            schoolClasses.push(cTab);
+
+            // TOGGLE CLASSES' TABS VISIBILITIES
+            cTab.hidden = false;
+        } else { cTab.hidden = true; } // hide classes that don't belong to selected school
+    });
+
+    // SELECT THE FIRST CLASS OF SELECTED SCHOOL
+    schoolClasses[0].classList.add("selected"); // select the first class of the selected school
+    // selectClass(cTab); ???????????????????????? MAY BE HANDY WHEN WOKING WITH THE CONTENTS
+
+    // CLASS COUNT
+    let classCount = schoolClasses.length;
+
+    // TOGGLE ADD AND DEL BUTTONS
+    classCount < maxClassesPerSchool ? addClassBtn.disabled = false : addClassBtn.disabled = true;
+    classCount == 1 ? delClassBtn.disabled = true : delClassBtn.disabled = false;
+
+    // SELECT CLICKED SCHOOL TAB
+    schoolTab.classList.add("selected");
+}
+
+const addClass = () => {
+
+    classNumber++;
+
+    /**** IDENTIFY SELECTED SCHOOL TAB ****/
+
+    let school;
+    cSchoolsTabs.forEach(tab => {
+        if (tab.classList.contains("selected")) { school = tab; }
+    });
+    // UNSELECT SCHOOL
+    school.classList.remove("selected");
+    // UNSELECT PREVIOUSLY SELECTED CLASS
+    classesTabs.forEach(tab => tab.classList.remove("selected"));
+
+    /**** GET THE NUMBER OF CLASSES BELONGING TO SELECTED SCHOOL ****/
+
+    let classCount = 1; // a class has already been created with the school
+    classesTabs.forEach(tab => {
+        if (tab.classList.contains(school.className)) { classCount++; }
+    });
+
+    /**** TOGGLE ADD AND DEL BUTTONS ****/
+
+    if (classCount == maxClassesPerSchool) { addClassBtn.disabled = true; }
+    delClassBtn.disabled = false;
+
+    /*********************
+        NEW CLASS TAB
+    *********************/
+
+    /**** CREATE ELEMENT ****/
+
+    const classTab = document.createElement("button");
+    classTab.type = "button";
+    classTab.classList.add(school.className, "selected");
+    classTab.id = `class${classNumber}`;
+    classTab.innerText = `Turma ${classCount}`;
+
+    /**** APPEND ELEMENT ****/
+
+    const tabsList = document.querySelector("#classes-tabs"); /////////////////////////
+    tabsList.appendChild(classTab);
+
+    /**** LISTEN TO EVENT ON ELEMENT ****/
+
+    classTab.addEventListener("mouseup", () => selectClass(classTab));
+    classTab.addEventListener("keydown", evt => {
+        if (evt.keyCode == enter) { selectClass(classTab); }
+    });
+
+    /**** UPDATE TABS LIST ****/
+
+    classesTabs = document.querySelectorAll("#new-classes #classes-tabs button");
+
+    /***********************
+        NEW CLASS CONTENT
+    ***********************/
+
+    // CREATE NEW CONTENT HERE /////////////////////////////////
+
+    /************************
+        WRAP EVERYTHING UP
+    ************************/
+
+    // SELECT SCHOOL
+    school.classList.add("selected"); // it's at the end because school.className is added to new elements
+};
+
+const delClass = () => {
+    // IDENTIFY CLASS TO DELETE
+    let delClass;
+    classesTabs.forEach(tab => {
+        if (tab.classList.contains("selected")) { delClass = tab; }
+    });
+
+    // CONFIRM DELETION
+    if (!confirm(`Tem certeza que deseja deletar a ${delClass.innerText}?`)) { return; }
+
+    /******************
+        REMOVE TABS
+    ******************/
+
+    delClass.remove();
+    //  UPDATE TABS LISTS
+    classesTabs = document.querySelectorAll("#new-classes #classes-tabs button");
+
+    /**** IDENTIFY SELECTED SCHOOL TAB ****/
+
+    let school;
+    cSchoolsTabs.forEach(tab => {
+        if (tab.classList.contains("selected")) { school = tab; }
+    });
+    // UNSELECT SCHOOL
+    school.classList.remove("selected");
+
+    // SELECT LAST CLASS IN THE LIST
+    let schoolClasses = [];
+    classesTabs.forEach(tab => {
+        if (tab.classList.contains(school.className)) {
+            schoolClasses.push(tab);
+        }
+    });
+    school.classList.add("selected");
+    schoolClasses[schoolClasses.length - 1].classList.add("selected");
+
+    let classCount = schoolClasses.length; // to toggle add/del btns
+
+    // TOGGLE ADD AND DEL BUTTONS
+    addClassBtn.disabled = false
+    classCount == 1 ? delClassBtn.disabled = true : delClassBtn.disabled = false;
+
+    /******************************************************
+        REMOVE CLASS CONTENT
+    ******************************************************/
+
+    // [...schoolsContents].forEach(content => {
+    //     if (!content.hidden) { content.remove(); }
+    // });
+
+    // // DISPLAY CONTENT OF THE LAST SCHOOL IN THE LIST
+    // schoolsContents[schoolsContents.length - 1].hidden = false;
+};
+
+const selectClass = (tab) => {
+    // UNSELECT PREVIOUSLY SELECTED TAB
+    classesTabs.forEach(tab => tab.classList.remove("selected"));
+
+    // TOGGLE CLASSES CONTENTS VISIBILITY
+    // [...classesContents].forEach(content => {
+    //     content.classList.contains(tab.className) ? content.hidden = false : content.hidden = true;
+    // });
+
+    // SELECT CLICKED CLASS
+    tab.classList.add("selected");
+};
+
+
+
+
+
+
+
+const checkboxes = document.getElementsByClassName("checkbox");
+
+[...checkboxes].forEach(checkbox => {
+    checkbox.addEventListener("change", () => showCourseRetakeList(checkbox));
+});
+
+const showCourseRetakeList = (checkbox) => {
+
+    const hiddenElementId = checkbox.dataset.tdId;
+    const repeatCourses = document.getElementById(hiddenElementId);
+
+    checkbox.checked ? repeatCourses.hidden = false : repeatCourses.hidden = true;
+
 };

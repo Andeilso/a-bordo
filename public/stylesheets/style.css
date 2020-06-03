@@ -508,18 +508,21 @@ section#set-user ul li span {
 }
 /* END OF SETTING USER */
 
-/* BUTTONS FOR ADDING NEW SCHOOLS, CLASSES AND CHILDREN */
-#new-schools, #classes, #new-child { /* .align-left + btn-del */
+/* BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
+#new-schools, #classes {
   display: flex;
   justify-content: space-between;
+}
 
-  z-index: 1000;
+#new-schools button, #new-classes button {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
-.align-left { /* .schools-tabs/#classes-tabs + .btn-add + .child-tabs */
-  display: flex;
-}
-.schools-tabs, #classes-tabs, .child-tabs, .instances-list {
-  width: 56vw;
+#classes button { margin-top: 0.25rem; } 
+
+.schools-tabs, #classes-tabs, .instances-list {
+  width: 58vw;
+  /* width: 60vw; */
   margin-right: .5rem;
 
   display: flex;
@@ -531,19 +534,23 @@ section#set-user ul li span {
   width: 100%;
 }
 
-#new-schools button, #new-classes button, #new-child button {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.buttons {
+  display: flex;
+  flex-wrap: nowrap;
 }
-#classes button { margin-top: 0.25rem; } 
+.btn-add, .btn-del {
+  margin-left: 6px;
+  min-width: 48px; 
+  max-width: 48px;
 
-.btn-add, .btn-del { min-width: 48px; max-width: 48px; }
-.btn-del {
-  background-color: #fe539b; 
-  background-image: url("../images/bin.svg");
-  background-size: 60%;
+  background-size: 70%;
   background-repeat: no-repeat;
   background-position: center;
+}
+.btn-add { background-image: url("../images/btn-add.svg"); }
+.btn-del {
+  background-color: #fe539b; 
+  background-image: url("../images/btn-del.svg");
 }
 /* END OF BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
 
@@ -582,46 +589,66 @@ div.school-location { display: flex; }
 /* END OF SCHOOLS SETTING*/
 
 /* CLASSES SETTING */
-div#class-code {
-  /* text-align: center; */
-  display: flex;
-  flex-wrap: nowrap;
+
+#set-classes .gray-box h3 {
   margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
-div#class-code label { margin-right: 1rem; }
+#set-classes .gray-box p {
+  margin-bottom: .75rem;
+}
 
+div#class-code, 
 div#new-courses {
   margin-bottom: 1.5rem;
+  display: flex;
+}
+div#class-code { flex-wrap: wrap; }
+div#new-courses { width: 100%; }
 
+div.subjects {
   display: flex;
   flex-wrap: wrap;
 }
 
-div#new-courses div.buttons,
-div.course-retake-list button { margin-left: 6px; }
-
-div#students-list > div:first-child span#student-name {
-  margin-left: 84px; /* equals to the input[type="number"] width */
+#class-code select,
+.subjects select {
+  flex-grow: 1;
+  margin-right: .75rem;
 }
 
-div#students-list div.students {
-  margin-top: 12px;
+/* STUDENTS REGISTER TABLE */
+
+#students-table th {
+  font-weight: normal;
+  padding-bottom: .75rem;
+}
+
+.student input[type="number"],
+.student input[type="text"] {
+  margin: 0;
+}
+
+.student input[type="number"], 
+#students-table th:first-child {
+  width: 5rem;
+  margin-right: 12px;
+}
+.student input[type="text"], 
+#students-table th:last-child {
+  min-width: 25rem;
+  margin-right: 12px;
+}
+
+.student .repeat-courses {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
 }
-
-div#students-list input[type="number"] {
-  width: 84px;
-  margin-bottom: 0px;
-  margin-right: 12px;
-}
-
-div#students-list input[type="text"] {
-  min-width: 30rem;
-  margin: 0;
-  margin-right: 12px;
+.student .repeat-courses select {
+  margin-bottom: 0;
+  margin-right: .75rem;
 }
 
 /* CHECKBOX CUSTOMIZING */
@@ -666,14 +693,6 @@ div#students-list input[type="text"] {
 }
 /* END OF CHECKBOX CUSTOMIZING */
 
-div.students div.course-retake-list {
-  display: flex;
-  flex-flow: row nowrap;
-}
-
-div.students div.course-retake-list select {
-  margin-bottom: 0;
-}
 /* END OF CLASSES SETTING */
 
 /* BUTTONS, SELECTS AND INPUTS*/

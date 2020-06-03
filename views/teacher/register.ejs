@@ -102,85 +102,33 @@
         </section>
 
         <section id="set-schools">
-
           <div id="new-schools">
-            <div class="align-left">
-              <div class="schools-tabs">
-                <!-- JAVASCRIPT ADDED
-                <button type="button" class="school1 selected">Escola 1</button> 
-                -->
-              </div>
-              <button type="button" class="btn-add" id="add-school">+</button>
+            <div class="schools-tabs"></div>
+            <div class="buttons">
+              <button type="button" class="btn-add" id="add-school"></button>
+              <button type="button" class="btn-del" id="del-school" disabled></button>
             </div>
-            <button type="button" class="btn-del" id="del-school" disabled></button>
           </div>
-
-          <div class="gray-box">
-            <!-- JAVASCRIPT ADDED
-            <div class="school-content school1">
-              <div class="school-location">
-                <select name="school1[]" id="state-school1" required>
-                  <option disabled selected>UF</option>
-                </select>
-
-                <select name="school1[]" id="municipality-school1" disabled required>
-                  <option disabled selected>Município</option>
-                </select>
-              </div>
-
-              <select name="school1[]" id="school1" disabled required>
-                <option disabled selected>Nome da escola</option>
-              </select>
-
-              <select name="school1[]" required>
-                <option disabled selected>Média para aprovação</option>
-                <option disabled>Escala de 0 a 10 pontos</option>
-                <option value="5">5,0 pontos</option>
-                <option value="6">6,0 pontos</option>
-                <option value="7">7,0 pontos</option>
-                <option disabled>Escala de 0 a 100 pontos</option>
-                <option value="50">50 pontos</option>
-                <option value="60">60 pontos</option>
-                <option value="70">70 pontos</option>
-              </select>
-
-              <p>Sistema de avaliação: <span id="term"></span></p>
-              <label class="btn-appearance" id="bimonthly" onclick="isBimonthly()">
-                Bimestral
-                <input type="radio" name="school1[]" value="4" required />
-              </label>
-              <label class="btn-appearance" id="trimonthly" onclick="isTrimonthly()">
-                Trimestral
-                <input type="radio" name="school1[]" value="3" />
-              </label> 
-            </div>
-            -->
-          </div>
-
+          <div class="gray-box"></div>
         </section>
 
         <section id="set-classes">
-
           <div id="new-classes">
-            <div class="schools-tabs">
-              <!-- JAVASCRIPT ADDED
-              <button type="button" class="selected school1">Escola 1</button> 
-              -->
-            </div>
+            <div class="schools-tabs"></div>
             <div id="classes">
-              <div class="align-left">
-                <div id="classes-tabs">
-                  <button type="button" class="selected class1">Turma 1</button>
-                </div>
-                <button type="button" class="btn-add" id="add-class">+</button>
+              <div id="classes-tabs"></div>
+              <div class="buttons">
+                <button type="button" class="btn-add" id="add-class"></button>
+                <button type="button" class="btn-del" id="del-class" disabled></button>
               </div>
-              <button type="button" class="btn-del" id="del-class" disabled></button>
             </div>
           </div>
 
           <div class="gray-box">
+            <h3 id="class-school"></h3>
 
-            <div class="class-content">
+            <div class="class-content school1">
+
               <div id="class-code">
                 <% 
                 let date = new Date;
@@ -214,58 +162,78 @@
                 <select name="class1-school1[]">
                   <option disabled selected>Número da turma</option>
                   <option value="1111">1111</option>
-                  <option value="1121">1121</option>
-                  <option value="1131">1131</option>
-                  <option value="1141">1141</option>
-                  <option value="1151">1151</option>
-                  <option value="1161">1161</option>
-                  <option value="1171">1171</option>
-                  <option value="1181">1181</option>
-                  <option value="1191">1191</option>
-                  <option value="1211">1211</option>
-                  <option value="1221">1221</option>
-                  <option value="1231">1231</option>
                   <option disabled>•-•-•-•-•</option>
                   <option id="newClass">Adicionar nova turma</option>
                 </select>
               </div>
 
               <p>Nesta turma, eu leciono...</p>
+
               <div id="new-courses">
-                <select name="subjects-class1-school1[]" required>
-                  <option disabled selected>Escolher disciplina</option>
-                  <%
-                  for (subject of subjects) {
-                %>
-                  <option value="<%= subject.id %>"><%= subject.name %></option>
-                  <%
-                  
-                  }
-                %>
-                  <option disabled>•-•-•-•-•</option>
-                  <option value="newSubject">Adicionar nova disciplina</option>
-                </select>
-
-                <select name="subjects-class1-school1[]" required>
-                  <option disabled selected>Escolher disciplina</option>
-                  <%
-                  for (subject of subjects) {
-                %>
-                  <option value="<%= subject.id %>"><%= subject.name %></option>
-                  <%
-                  }
-                %>
-                  <option disabled>•-•-•-•-•</option>
-                  <option value="newSubject">Adicionar nova disciplina</option>
-                </select>
-
+                <div class="subjects">
+                  <select name="subjects-class1-school1[]" required>
+                    <option disabled selected>Escolher disciplina</option>
+                    <%
+                    for (subject of subjects) {
+                    %>
+                    <option value="<%= subject.id %>"><%= subject.name %></option>
+                    <%
+                    }
+                    %>
+                    <option disabled>•-•-•-•-•</option>
+                    <option value="newSubject">Adicionar nova disciplina</option>
+                  </select>
+                </div>
                 <div class="buttons">
-                  <button type="button" class="btn-add" id="add-course">+</button>
+                  <button type="button" class="btn-add" id="add-course"></button>
                   <button type="button" class="btn-del" id="del-course" disabled></button>
                 </div>
+
               </div>
 
-              <div id="students-list">
+              <table id="students-table">
+
+                <thead>
+                  <tr>
+                    <th id="student-number">Nº</th>
+                    <th id="student-name">Aluno</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="student">
+                    <td><input type="number" name="student1-class1-school1[]" value="1" min="1" required /></td>
+                    <td><input type="text" name="student1-class1-school1[]" placeholder="Nome do aluno" required /></td>
+                    <td>
+                      <label for="checkbox1" class="checkbox-container">Dependência
+
+                        <input type="checkbox" class="checkbox" id="checkbox1" name="student1-class1-school1[]"
+                          data-td-id="course-student1" />
+
+                        <span class="checkmark"></span>
+
+                      </label>
+                    </td>
+                    <td class="repeat-courses" id="course-student1" hidden>
+
+                      <div class="subjects">
+                        <select name="student1-class1-school1[]">
+                          <option disabled selected>Dependência em...</option>
+                        </select>
+                      </div>
+
+                      <div class="buttons">
+                        <button type="button" class="btn-add"></button>
+                        <button type="button" class="btn-del" disabled></button>
+                      </div>
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+            <!-- <div id="students-list">
                 <div>
                   <span id="student-number">Nº</span><span id="student-name">Aluno</span>
                 </div>
@@ -282,50 +250,22 @@
 
                   <div class="course-retake-list" id="course-retake-student1" hidden required>
                     <select name="student1-class1-school1[]" id="course-retake-list1-student1">
-                      <option value="" disabled selected>Dependência em...</option>
+                      <option disabled selected>Dependência em...</option>
                       <%
-                      for (subject of subjects) {
-                    %>
-                      <option value="<%= subject.id %>"><%= subject.name %></option>
-                      <%
-                      }
-                    %>
-                    </select>
-
-                    <button type="button" class="btn-add">+</button>
-                    <button type="button" class="btn-del" disabled></button>
-                  </div>
-                </div>
-
-                <div class="students">
-                  <input type="number" name="student2-class1-school1[]" value="2" required />
-                  <input type="text" name="student2-class1-school1[]" placeholder="Nome do aluno" required />
-
-                  <label for="course-retake-checkbox-student2" class="checkbox-container">Dependência
-                    <input type="checkbox" name="student2-class1-school1[]" class="course-retake-checkbox"
-                      id="course-retake-checkbox-student2" data-div-id="course-retake-student2" />
-                    <span class="checkmark"></span>
-                  </label>
-
-                  <div class="course-retake-list" id="course-retake-student2" hidden required>
-                    <select name="student2-class1-school1[]" id="course-retake-list1-student2">
-                      <option value="" disabled selected>Dependência em...</option>
-                      <%
-                      for (subject of subjects) {
+                        for (subject of subjects) {
                       %>
                       <option value="<%= subject.id %>"><%= subject.name %></option>
                       <%
-                      }
-                    %>
+                        }
+                      %>
                     </select>
-
-                    <button type="button" class="btn-add">+</button>
-                    <button type="button" class="btn-del" disabled></button>
+                    <div class="buttons">
+                      <button type="button" class="btn-add"></button>
+                      <button type="button" class="btn-del" disabled></button>
+                    </div>
                   </div>
                 </div>
-
-              </div>
-            </div>
+              </div> -->
           </div>
 
           <button type="submit" class="special">Finalizar e levantar voo!</button>
@@ -334,6 +274,5 @@
     </form>
   </main>
 
-  <!-- <script src="/javascripts/api.js"></script> -->
   <script src="/javascripts/formItems.js"></script>
   <%- include("../partials/footer.ejs") %>
