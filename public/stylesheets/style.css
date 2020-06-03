@@ -508,19 +508,23 @@ section#set-user ul li span {
 }
 /* END OF SETTING USER */
 
-/* BUTTONS FOR ADDING NEW SCHOOLS AND CLASSES */
-#new-schools, #classes {
+/* BUTTONS FOR ADDING NEW SCHOOLS, CLASSES AND CHILDREN */
+#new-schools, #classes, #new-child { /* #new-child -> .align-left + btn-del */
   display: flex;
   justify-content: space-between;
 }
+.align-left { /* .child-tabs + .btn-add +  */
+  display: flex;
+}
 
-#new-schools button, #new-classes button {
+#new-schools button, #new-classes button, #new-child button {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 #classes button { margin-top: 0.25rem; } 
 
-.schools-tabs, #classes-tabs, .instances-list {
+.schools-tabs, #classes-tabs, .instances-list, .child-tabs {
   width: 58vw;
   /* width: 60vw; */
   margin-right: .5rem;
